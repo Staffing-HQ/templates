@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: all-templates
+  description: A collection of templates
+spec:
+  type: url
+  targets:
+    - https://github.com/Staffing-HQ/templates/blob/main/fast_api/template.yaml
