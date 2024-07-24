@@ -1,0 +1,84 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+# some metadata about the template itself
+metadata:
+  name: python-fast-api
+  title: Python FastAPI Template
+  description: A template for creating a Python FastAPI app
+spec:
+  owner: group:developers
+  type: api
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Fill in some steps
+      required:
+        - component_id
+        - owner
+      properties:
+        component_id:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:field: EntityNamePicker
+        description:
+          title: Description
+          type: string
+          description: A short description of the component
+        owner:
+          title: Owner
+          type: string
+          description: The owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          component_id: "${{ parameters.component_id }}"
+          description: "${{ parameters.description }}"
+          destination: "${{ parameters.repoUrl | parseRepoUrl }}"
+          owner: "${{ parameters.owner }}"
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: "This is ${{ parameters.component_id }}"
+        repoUrl: "${{ parameters.repoUrl }}"
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: "${{ steps.publish.output.repoContentsUrl }}"
+        catalogInfoPath: "/catalog-info.yaml"
+
+  # Outputs are displayed to the user after a successful execution of the template
+  output:
+  links:
+    - title: Repository
+      url: ${{ steps['publish'].output.remoteUrl }}
+    - title: Open in catalog
+      icon: catalog
+      entityRef: ${{ steps['register'].output.entityRef }}
