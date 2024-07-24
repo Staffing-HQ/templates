@@ -7,7 +7,7 @@ metadata:
   description: A template for creating a Python FastAPI app
 spec:
   owner: group:developers
-  type: api
+  type: service
 
   # These parameters are used to generate the input form in the frontend, and are
   # used to gather input data for the execution of the template.
@@ -16,6 +16,7 @@ spec:
       required:
         - component_id
         - owner
+        - system
       properties:
         component_id:
           title: Name
@@ -34,6 +35,10 @@ spec:
           ui:options:
             allowedKinds:
               - Group
+        system:
+          title: System
+          type: string
+          description: The system that the component belongs to
     - title: Choose a location
       required:
         - repoUrl
@@ -52,33 +57,34 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./skeleton
+        url: ./content
         values:
-          component_id: "${{ parameters.component_id }}"
-          description: "${{ parameters.description }}"
-          destination: "${{ parameters.repoUrl | parseRepoUrl }}"
-          owner: "${{ parameters.owner }}"
+          component_id: ${{ parameters.component_id }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
 
     - id: publish
       name: Publish
       action: publish:github
       input:
         allowedHosts: ["github.com"]
-        description: "This is ${{ parameters.component_id }}"
-        repoUrl: "${{ parameters.repoUrl }}"
+        description: This is ${{ parameters.component_id }}
+        repoUrl: ${{ parameters.repoUrl }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: "${{ steps.publish.output.repoContentsUrl }}"
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: "/catalog-info.yaml"
 
   # Outputs are displayed to the user after a successful execution of the template
   output:
-  links:
-    - title: Repository
-      url: ${{ steps['publish'].output.remoteUrl }}
-    - title: Open in catalog
-      icon: catalog
-      entityRef: ${{ steps['register'].output.entityRef }}
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

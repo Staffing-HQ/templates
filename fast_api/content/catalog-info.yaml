@@ -14,14 +14,14 @@ spec:
   owner: ${{values.owner | dump}}
   system: ${{values.system | dump}}
   dependsOn:
-    - ${{values.component_id | dump}}-db
+    - ${{values.component_id}}-db
   definition:
     $text: ./openapi.yaml
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
-  name: ${{values.component_id | dump}}-db
+  name: ${{values.component_id}}-db
 spec:
   type: database
   owner: ${{values.owner | dump}}
