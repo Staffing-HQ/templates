@@ -18,7 +18,7 @@ spec:
   owner: ${{ values.owner }}
   lifecycle: experimental
   providesApis:
-    - ${{ values.appName }}-api
+    - ${{ values.component_id }}-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
