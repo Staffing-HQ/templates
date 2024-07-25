@@ -1,0 +1,9 @@
+site_name: ${{values.appName | dump}}
+site_description: ${{values.description | dump}}
+
+nav:
+  - Introduction: index.md
+  - Help: help.md
+
+plugins:
+  - techdocs-core

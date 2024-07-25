@@ -16,7 +16,9 @@ spec:
   parameters:
     - title: Provide information about the new component
       required:
+        - component_id
         - orgName
+        - owner
         - appName
         - domainName
         - domainNameLc
@@ -24,6 +26,12 @@ spec:
         - javaPackage
         - description
       properties:
+        component_id:
+          title: Name
+          type: string
+          description: Unique name of the component
+          default: my-spring-boot-app
+          ui:field: EntityNamePicker
         orgName:
           title: Organization name
           type: string
@@ -31,7 +39,7 @@ spec:
         appName:
           title: App name
           type: string
-          default: MySpringBootApp
+          default: My Spring Boot App
         domainName:
           title: Name of the domain object
           type: string
@@ -52,6 +60,18 @@ spec:
           title: Description
           type: string
           default: Sample Spring Boot App
+        owner:
+          title: Owner
+          type: string
+          description: The owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        system:
+          title: System
+          type: string
+          description: The system that the component belongs to
     - title: Choose a location
       required:
         - repoUrl
@@ -71,12 +91,17 @@ spec:
       input:
         url: ./content
         values:
+          component_id: ${{ parameters.component_id }}
           orgName: ${{ parameters.orgName }}
           appName: ${{ parameters.appName }}
           domainName: ${{ parameters.domainName }}
           domainNameLc: ${{ parameters.domainNameLc }}
+          description: ${{ parameters.description }}
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
 
     - id: publish
       name: Publishing to the Git repository

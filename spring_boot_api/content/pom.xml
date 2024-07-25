@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>${{values.groupId}}</groupId>
-	<artifactId>${{values.appName}}</artifactId>
+	<artifactId>${{values.component_id}}</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>${{values.appName}}</name>
 	<description>${{values.description}}</description>
