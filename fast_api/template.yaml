@@ -3,7 +3,7 @@ kind: Template
 # some metadata about the template itself
 metadata:
   name: python-fast-api
-  title: Python FastAPI Template
+  title: Create a Python FastAPI app
   description: A template for creating a Python FastAPI app
 spec:
   owner: group:developers

@@ -1,0 +1,102 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: spring-boot-app
+  title: Create a Spring Boot app
+  description: A template for creating a Spring Boot app
+  tags:
+    - spring-boot
+    - java
+    - maven
+    - sonarqube
+spec:
+  owner: group:developers
+  type: service
+
+  parameters:
+    - title: Provide information about the new component
+      required:
+        - orgName
+        - appName
+        - domainName
+        - domainNameLc
+        - groupId
+        - javaPackage
+        - description
+      properties:
+        orgName:
+          title: Organization name
+          type: string
+          default: staffinghq
+        appName:
+          title: App name
+          type: string
+          default: MySpringBootApp
+        domainName:
+          title: Name of the domain object
+          type: string
+          default: Person
+        domainNameLc:
+          title: Lowercase name of the domain object
+          type: string
+          default: person
+        groupId:
+          title: Maven Group ID
+          type: string
+          default: com.staffinghq
+        javaPackage:
+          title: Java package directory
+          type: string
+          default: com/staffinghq
+        description:
+          title: Description
+          type: string
+          default: Sample Spring Boot App
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch-base
+      name: Generating the base component
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          orgName: ${{ parameters.orgName }}
+          appName: ${{ parameters.appName }}
+          domainName: ${{ parameters.domainName }}
+          domainNameLc: ${{ parameters.domainNameLc }}
+          groupId: ${{ parameters.groupId }}
+          javaPackage: ${{ parameters.javaPackage }}
+
+    - id: publish
+      name: Publishing to the Git repository
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Registering the component in the catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

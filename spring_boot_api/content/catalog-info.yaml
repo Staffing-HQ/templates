@@ -1,0 +1,30 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.appName }}
+  title: ${{ values.appName }}
+  annotations:
+    github.com/project-slug: ${{ values.orgName }}/${{ values.appName }}
+  tags:
+    - spring-boot
+    - java
+    - maven
+spec:
+  type: service
+  owner: developers
+  lifecycle: experimental
+  providesApis:
+    - ${{ values.appName }}-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{ values.appName }}-api
+  title: ${{ values.appName }} API
+  description: REST API for the ${{ values.appName }} app
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: developers
+  definition:
+    $text: "./openapi.yaml"
