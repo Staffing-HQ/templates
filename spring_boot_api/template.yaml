@@ -8,7 +8,6 @@ metadata:
     - spring-boot
     - java
     - maven
-    - sonarqube
 spec:
   owner: group:developers
   type: service

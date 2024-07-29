@@ -5,6 +5,10 @@ metadata:
   name: python-fast-api
   title: Create a Python FastAPI app
   description: A template for creating a Python FastAPI app
+  tags:
+    - python
+    - fastapi
+    - openapi
 spec:
   owner: group:developers
   type: service
