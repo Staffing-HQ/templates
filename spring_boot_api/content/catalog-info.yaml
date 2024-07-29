@@ -17,6 +17,9 @@ spec:
   type: service
   owner: ${{ values.owner }}
   lifecycle: experimental
+  {%- if values.system %}
+  system: ${{ values.system }}
+  {%- endif %}
   providesApis:
     - ${{ values.component_id }}-api
 ---
