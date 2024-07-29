@@ -8,3 +8,4 @@ spec:
   targets:
     - https://github.com/Staffing-HQ/templates/blob/main/fast_api/template.yaml
     - https://github.com/Staffing-HQ/templates/blob/main/spring_boot_api/template.yaml
+    - https://github.com/Staffing-HQ/templates/blob/main/next_ssr/template.yaml
