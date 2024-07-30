@@ -5,8 +5,7 @@ import ${{values.groupId}}.service.${{values.domainName}}Service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ${{values.domainName}}Controller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<${{values.domainName}}> getById(Long id) {
+    public ResponseEntity<${{values.domainName}}> getById(@PathVariable Long id) {
         return ResponseEntity.ok(this.${{values.domainNameLc}}Service.getById(id));
     }
 }

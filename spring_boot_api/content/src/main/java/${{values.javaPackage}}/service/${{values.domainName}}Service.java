@@ -5,6 +5,8 @@ import ${{ values.groupId }}.repository.${{ values.domainName }}Repository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ${{values.domainName}}Service {
     private final ${{values.domainName}}Repository ${{values.domainNameLc}}Repository;
