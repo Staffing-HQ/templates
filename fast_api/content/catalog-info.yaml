@@ -1,7 +1,23 @@
 apiVersion: backstage.io/v1alpha1
-kind: API
+kind: Component
 metadata:
   name: ${{values.component_id | dump}}
+  title: ${{values.title | dump}}
+  {%- if values.description %}
+  description: ${{values.description | dump}}
+  {%- endif %}
+spec:
+  type: service
+  owner: ${{values.owner | dump}}
+  system: ${{values.system | dump}}
+  providesApis:
+    - ${{values.component_id}}-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{values.component_id}}-api
+  title: ${{values.title}} API
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif %}

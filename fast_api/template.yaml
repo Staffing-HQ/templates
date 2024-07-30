@@ -21,12 +21,17 @@ spec:
         - component_id
         - owner
         - system
+        - title
       properties:
         component_id:
           title: Name
           type: string
           description: Unique name of the component
           ui:field: EntityNamePicker
+        title:
+          title: Title
+          type: string
+          description: A short title of the component
         description:
           title: Description
           type: string
@@ -68,6 +73,7 @@ spec:
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
+          title: ${{ parameters.title }}
 
     - id: publish
       name: Publish
