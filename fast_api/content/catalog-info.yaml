@@ -6,10 +6,18 @@ metadata:
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif %}
+  annotations:
+      github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+      backstage.io/techdocs-ref: dir:.
+  tags:
+    - fastapi
+    - python
+    - openapi
 spec:
   type: service
-  owner: ${{values.owner | dump}}
-  system: ${{values.system | dump}}
+  lifecycle: experimental
+  owner: ${{values.owner}}
+  system: ${{values.system}}
   providesApis:
     - ${{values.component_id}}-api
 ---
@@ -19,7 +27,7 @@ metadata:
   name: ${{values.component_id}}-api
   title: ${{values.title}} API
   {%- if values.description %}
-  description: ${{values.description | dump}}
+  description: ${{values.description}}
   {%- endif %}
   annotations:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
@@ -27,7 +35,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: ${{values.owner | dump}}
-  system: ${{values.system | dump}}
+  owner: ${{values.owner}}
+  system: ${{values.system}}
   definition:
     $text: ./openapi.yaml

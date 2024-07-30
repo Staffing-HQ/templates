@@ -8,6 +8,10 @@ metadata:
   annotations:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
+  tags:
+    - nextjs
+    - react
+    - ssr
 spec:
   type: website
   lifecycle: experimental
