@@ -91,6 +91,7 @@ spec:
         url: ./content
         copyWithoutTemplating:
           - .github/workflows/*.yml
+          - .github/workflows/*.yaml
         values:
           component_id: ${{ parameters.component_id }}
           orgName: ${{ parameters.orgName }}
