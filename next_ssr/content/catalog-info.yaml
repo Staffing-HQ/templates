@@ -14,6 +14,7 @@ metadata:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
     gocd.org/pipelines: backstage,backstage-pr,backstage-builder
+    sonarqube.org/project-key: default/${{values.component_id}}
   tags:
     - nextjs
     - react

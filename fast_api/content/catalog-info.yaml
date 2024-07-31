@@ -9,6 +9,7 @@ metadata:
   annotations:
       github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
       backstage.io/techdocs-ref: dir:.
+      sonarqube.org/project-key: default/${{values.component_id}}
   tags:
     - fastapi
     - python
