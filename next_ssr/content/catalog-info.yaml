@@ -6,6 +6,10 @@ metadata:
   {%- if values.description %}
   description: ${{values.description}}
   {%- endif %}
+  links:
+    - url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+      title: Website
+      icon: dashboard
   annotations:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
