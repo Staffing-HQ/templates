@@ -112,6 +112,7 @@ spec:
         allowedHosts: ["github.com"]
         description: ${{ parameters.description }}
         repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public
 
     - id: register
       name: Registering the component in the catalog
