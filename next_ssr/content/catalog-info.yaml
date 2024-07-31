@@ -9,6 +9,7 @@ metadata:
   annotations:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
+    gocd.org/pipelines: backstage,backstage-pr,backstage-builder
   tags:
     - nextjs
     - react
