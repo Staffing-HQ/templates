@@ -18,6 +18,7 @@ spec:
     - title: Provide some simple information
       required:
         - component_id
+        - appName
         - owner
       properties:
         component_id:
@@ -25,6 +26,10 @@ spec:
           type: string
           description: Unique name of the component
           ui:field: EntityNamePicker
+        appName:
+          title: App Name
+          type: string
+          description: Name of the Next.js app in human readable format
         description:
           title: Description
           type: string
@@ -62,6 +67,7 @@ spec:
           description: ${{ parameters.description }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
+          appName: ${{ parameters.appName }}
 
     - id: publish
       name: Publish
