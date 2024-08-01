@@ -1,5 +1,3 @@
-{%- set owners = values.owners %}
-
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
@@ -34,7 +32,7 @@ metadata:
 spec:
   type: service
   owner: 
-    {%- for owner in owners %}
+    {%- for owner in values.owners %}
     - '${{ owner }}'
     {%- endfor %}
   lifecycle: experimental
@@ -42,9 +40,8 @@ spec:
   system: ${{ values.system }}
   {%- endif %}
   {%- if values.dependsOn %}
-  {%- set dependencies = values.dependsOn %}
   dependsOn:
-    {%- for dependency in dependencies %}
+    {%- for dependency in values.dependsOn %}
     - '${{ dependency }}'
     {%- endfor %}
   {%- endif %}
