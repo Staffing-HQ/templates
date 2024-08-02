@@ -14,7 +14,7 @@ spec:
   type: service
 
   parameters:
-    - title: Fill in some steps
+    - title: Basic information for the FastApi app
       required:
         - component_id
         - title
@@ -53,6 +53,14 @@ spec:
           ui:options:
             catalogFilter:
               - kind: [Component, API, Resource]
+        system:
+          title: System
+          type: string
+          description: The system that the component belongs to
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - System
     - title: Configure plugins
       properties:
         enableSonarQube:
