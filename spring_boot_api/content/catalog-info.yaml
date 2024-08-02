@@ -31,10 +31,7 @@ metadata:
     - maven
 spec:
   type: service
-  owner: 
-    {%- for owner in values.owners %}
-    - '${{ owner }}'
-    {%- endfor %}
+  owner: ${{ values.owner }}
   lifecycle: experimental
   {%- if values.system %}
   system: ${{ values.system }}

@@ -62,14 +62,15 @@ spec:
       required:
         - owners
       properties:
-        owners:
-          title: Owners
-          type: array
+        owner:
+          title: Owner
+          type: string
           description: The owner of the component
-          ui:field: MultiEntityPicker
+          ui:field: EntityPicker
           ui:options:
-            catalogFilter:
-              - kind: [Group, User]
+            allowedKinds:
+              - Group
+              - User
         dependsOn:
           title: Depends on
           type: array
@@ -189,7 +190,7 @@ spec:
           description: ${{ parameters.description }}
           groupId: ${{ parameters.groupId }}
           javaPackage: ${{ parameters.javaPackage }}
-          owners: ${{ parameters.owners }}
+          owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           dependsOn: ${{ parameters.dependsOn }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}

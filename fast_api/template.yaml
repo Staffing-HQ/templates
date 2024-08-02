@@ -32,22 +32,19 @@ spec:
           title: Description
           type: string
           description: A short description of the component
-        system:
-          title: System
-          type: string
-          description: The system that the component belongs to
     - title: Configure component relationships
       required:
-        - owners
+        - owner
       properties:
-        owners:
-          title: Owners
-          type: array
+        owner:
+          title: Owner
+          type: string
           description: The owner of the component
-          ui:field: MultiEntityPicker
+          ui:field: EntityPicker
           ui:options:
-            catalogFilter:
-              - kind: [Group, User]
+            allowedKinds:
+              - Group
+              - User
         dependsOn:
           title: Depends on
           type: array
