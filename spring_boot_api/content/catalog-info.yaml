@@ -55,6 +55,8 @@ metadata:
   name: ${{ values.component_id }}-api
   title: ${{ values.appName }} API
   description: REST API for the ${{ values.appName }}
+  annotations:
+    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
 spec:
   type: openapi
   lifecycle: experimental

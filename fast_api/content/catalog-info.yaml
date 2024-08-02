@@ -1,26 +1,52 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.component_id | dump}}
-  title: ${{values.title | dump}}
+  name: ${{values.component_id}}
+  title: ${{values.title}}
   {%- if values.description %}
-  description: ${{values.description | dump}}
+  description: ${{values.description}}
   {%- endif %}
   annotations:
-      github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
-      backstage.io/techdocs-ref: dir:.
-      sonarqube.org/project-key: Staffing-HQ_${{values.component_id}}
+    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+    backstage.io/techdocs-ref: dir:.
+    {%- if values.cicd === true %}
+    gocd.org/pipelines: backstage,backstage-pr,backstage-builder
+    {%- endif %}
+    {%- if values.sonarqube === true %}
+    sonarqube.org/project-key: ${{ values.sonarqubeProjectKey }}
+    {%- endif %}
+    {%- if values.kubernetes === true %}
+    backstage.io/kubernetes-id: ${{ values.k8sId }}
+    backstage.io/kubernetes-namespace: ${{ values.k8sNamespace }}
+    backstage.io/kubernetes-label-selector: 'app=${{ values.podLabel }}'
+    {%- endif %}
+    {%- if values.grafana === true %}
+    grafana/overview-dashboard: ${{ values.grafanaDashboardUrl}}
+    grafana/dashboard-selector: ${{ values.grafanaDashboardSelector}}
+    grafana/tag-selector: 'app=${{ values.grafanaDashboardSelector }}'
+    {%- endif %}
   tags:
     - fastapi
     - python
     - openapi
 spec:
   type: service
+  owner: 
+    {%- for owner in values.owners %}
+    - '${{ owner }}'
+    {%- endfor %}
   lifecycle: experimental
-  owner: ${{values.owner}}
-  system: ${{values.system}}
+  {%- if values.system %}
+  system: ${{ values.system }}
+  {%- endif %}
+  {%- if values.dependsOn %}
+  dependsOn:
+    {%- for dependency in values.dependsOn %}
+    - '${{ dependency }}'
+    {%- endfor %}
+  {%- endif %}
   providesApis:
-    - ${{values.component_id}}-api
+    - 'api:default/${{ values.component_id }}-api'
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
@@ -32,11 +58,14 @@ metadata:
   {%- endif %}
   annotations:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
-    backstage.io/techdocs-ref: dir:.
 spec:
   type: openapi
   lifecycle: experimental
   owner: ${{values.owner}}
-  system: ${{values.system}}
+  dependsOn:
+    - component:default/${{ values.component_id }}
+  {%- if values.system %}
+  system: ${{ values.system }}
+  {%- endif %}
   definition:
     $text: ./openapi.yaml

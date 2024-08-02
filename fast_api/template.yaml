@@ -13,14 +13,10 @@ spec:
   owner: group:developers
   type: service
 
-  # These parameters are used to generate the input form in the frontend, and are
-  # used to gather input data for the execution of the template.
   parameters:
     - title: Fill in some steps
       required:
         - component_id
-        - owner
-        - system
         - title
       properties:
         component_id:
@@ -36,18 +32,103 @@ spec:
           title: Description
           type: string
           description: A short description of the component
-        owner:
-          title: Owner
-          type: string
-          description: The owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            allowedKinds:
-              - Group
         system:
           title: System
           type: string
           description: The system that the component belongs to
+    - title: Configure component relationships
+      required:
+        - owners
+      properties:
+        owners:
+          title: Owners
+          type: array
+          description: The owner of the component
+          ui:field: MultiEntityPicker
+          ui:options:
+            catalogFilter:
+              - kind: [Group, User]
+        dependsOn:
+          title: Depends on
+          type: array
+          description: The component that this component depends on
+          ui:field: MultiEntityPicker
+          ui:options:
+            catalogFilter:
+              - kind: [Component, API, Resource]
+    - title: Configure plugins
+      properties:
+        enableSonarQube:
+          title: SonarQube
+          type: boolean
+          default: false
+        enableGrafana:
+          title: Grafana
+          type: boolean
+          default: false
+        enableCICD:
+          title: CI/CD
+          type: boolean
+          default: false
+        enableKubernetes:
+          title: Kubernetes
+          type: boolean
+          default: false
+      dependencies:
+        enableSonarQube:
+          allOf:
+            - if:
+                properties:
+                  enableSonarQube:
+                    const: true
+              then:
+                required:
+                  - sonarqubeProjectKey
+                properties:
+                  sonarqubeProjectKey:
+                    title: Project key
+                    description: SonarQube project key
+                    type: string
+        enableGrafana:
+          allOf:
+            - if:
+                properties:
+                  enableGrafana:
+                    const: true
+              then:
+                required:
+                  - grafanaDashboardUrl
+                  - grafanaDashboardSelector
+                properties:
+                  grafanaDashboardUrl:
+                    title: Grafana dashboard URL
+                    type: string
+                    format: uri
+                  grafanaDashboardSelector:
+                    title: Grafana dashboard selector
+                    type: string
+        enableKubernetes:
+          allOf:
+            - if:
+                properties:
+                  enableKubernetes:
+                    const: true
+              then:
+                required:
+                  - k8sId
+                  - podLabel
+                  - k8sNamespace
+                properties:
+                  k8sId:
+                    title: Kubernetes identifier
+                    type: string
+                  podLabel:
+                    title: Kubernetes Pod label
+                    type: string
+                  k8sNamespace:
+                    title: Kubernetes namespace
+                    type: string
+                    default: default
     - title: Choose a location
       required:
         - repoUrl
@@ -67,6 +148,9 @@ spec:
       action: fetch:template
       input:
         url: ./content
+        copyWithoutTemplating:
+          - .github/workflows/*.yml
+          - .github/workflows/*.yaml
         values:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
@@ -74,6 +158,16 @@ spec:
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           title: ${{ parameters.title }}
+          sonarqube: ${{ parameters.enableSonarQube }}
+          sonarqubeProjectKey: ${{ parameters.sonarqubeProjectKey }}
+          grafana: ${{ parameters.enableGrafana }}
+          grafanaDashboardUrl: ${{ parameters.grafanaDashboardUrl }}
+          grafanaDashboardSelector: ${{ parameters.grafanaDashboardSelector }}
+          cicd: ${{ parameters.enableCICD }}
+          kubernetes: ${{ parameters.enableKubernetes }}
+          k8sId: ${{ parameters.k8sId }}
+          podLabel: ${{ parameters.podLabel }}
+          k8sNamespace: ${{ parameters.k8sNamespace }}
 
     - id: publish
       name: Publish
