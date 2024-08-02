@@ -162,6 +162,7 @@ spec:
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
+          dependsOn: ${{ parameters.dependsOn }}
           title: ${{ parameters.title }}
           sonarqube: ${{ parameters.enableSonarQube }}
           sonarqubeProjectKey: ${{ parameters.sonarqubeProjectKey }}
