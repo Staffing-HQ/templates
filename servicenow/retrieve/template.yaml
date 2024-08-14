@@ -7,22 +7,28 @@ spec:
   owner: developers
   type: servicenow
   parameters:
-    - title: New record/table
+    - title: Retrieve records
       required:
         - tableName
+        # - sysId
       properties:
         tableName:
           title: Table name
           type: string
           description: Table name
           ui:autofocus: true
+        # sysId:
+        #   title: System ID
+        #   type: string
+        #   description: System ID
   steps:
     - id: createRecord
       name: Create ServiceNow Record
-      action: servicenow:now:table:createRecord
+      action: servicenow:now:table:retrieveRecords
       input:
         tableName: "${{ parameters.tableName }}"
+        # sysId: "${{ parameters.sysId }}"
   output:
     text:
-      - title: New repository created
+      - title: Retrieved records
         content: Wohoo, record created > ${{ steps.createRecord.output.result }}
