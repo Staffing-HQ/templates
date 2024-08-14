@@ -22,6 +22,8 @@ spec:
       action: servicenow:now:table:createRecord
       input:
         tableName: "${{ parameters.tableName }}"
+        headers:
+          Content-Type: application/json
   output:
     text:
       - title: New repository created
