@@ -1,0 +1,28 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-sa-record
+  title: Create ServiceNow Record
+spec:
+  owner: developers
+  type: servicenow
+  parameters:
+    - title: New record/table
+      required:
+        - tableName
+      properties:
+        tableName:
+          title: Table name
+          type: string
+          description: Table name
+          ui:autofocus: true
+  steps:
+    - id: createRecord
+      name: Create ServiceNow Record
+      action: servicenow:now:table:createRecord
+      input:
+        tableName: ${{ parameters.tableName }}
+  output:
+    text:
+      - title: New repository created
+        content: Wohoo, record created > ${{ steps.createRecord.output.result }}
