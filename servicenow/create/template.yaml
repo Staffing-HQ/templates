@@ -21,7 +21,7 @@ spec:
       name: Create ServiceNow Record
       action: servicenow:now:table:createRecord
       input:
-        tableName: ${{ parameters.tableName }}
+        tableName: "${{ parameters.tableName }}"
   output:
     text:
       - title: New repository created
