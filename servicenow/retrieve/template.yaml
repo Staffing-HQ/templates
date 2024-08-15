@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: create-sa-record
-  title: Create ServiceNow Record
+  name: retrieve-sa-records
+  title: Retrieve ServiceNow Records
 spec:
   owner: developers
   type: servicenow
@@ -22,8 +22,8 @@ spec:
         #   type: string
         #   description: System ID
   steps:
-    - id: createRecord
-      name: Create ServiceNow Record
+    - id: retrieveRecords
+      name: Retrieve ServiceNow Records
       action: servicenow:now:table:retrieveRecords
       input:
         tableName: "${{ parameters.tableName }}"
