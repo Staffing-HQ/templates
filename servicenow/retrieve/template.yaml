@@ -31,4 +31,4 @@ spec:
   output:
     text:
       - title: Retrieved records
-        content: Wohoo, record created > ${{ steps.createRecord.output.result }}
+        content: ${{ steps.createRecord.output.result | dump }}
