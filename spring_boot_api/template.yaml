@@ -60,7 +60,7 @@ spec:
           default: Sample Spring Boot App
     - title: Configure component relationships
       required:
-        - owners
+        - owner
       properties:
         owner:
           title: Owner
