@@ -105,6 +105,10 @@ spec:
           title: Kubernetes
           type: boolean
           default: false
+        enableSnow:
+          title: Service Now
+          type: boolean
+          default: false
       dependencies:
         enableSonarQube:
           allOf:
@@ -160,6 +164,20 @@ spec:
                     title: Kubernetes namespace
                     type: string
                     default: default
+        enableSnow:
+          allOf:
+            - if:
+                properties:
+                  enableSnow:
+                    const: true
+              then:
+                required:
+                  - snowProjectId
+                properties:
+                  snowProjectId:
+                    title: SNOW Project ID
+                    type: string
+                    description: Service Now Project ID
     - title: Choose a location
       required:
         - repoUrl
@@ -171,6 +189,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+            allowedOwners:
+              - Staffing-HQ
 
   steps:
     - id: fetch-base
@@ -204,6 +224,8 @@ spec:
           k8sId: ${{ parameters.k8sId }}
           podLabel: ${{ parameters.podLabel }}
           k8sNamespace: ${{ parameters.k8sNamespace }}
+          snow: ${{ parameters.enableSnow }}
+          snowProjectId: ${{ parameters.snowProjectId }}
 
     - id: publish
       name: Publishing to the Git repository

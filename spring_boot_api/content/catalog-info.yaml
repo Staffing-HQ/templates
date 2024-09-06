@@ -25,6 +25,9 @@ metadata:
     grafana/dashboard-selector: ${{ values.grafanaDashboardSelector}}
     grafana/tag-selector: 'app=${{ values.grafanaDashboardSelector }}'
     {%- endif %}
+    {%- if values.snow === true %}
+    snow/project-id: ${{ values.snowProjectId }}
+    {%- endif %}
   tags:
     - spring-boot
     - java

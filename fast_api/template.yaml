@@ -145,7 +145,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-
+            allowedOwners:
+              - Staffing-HQ
   # here's the steps that are executed in series in the scaffolder backend
   steps:
     - id: fetch-base

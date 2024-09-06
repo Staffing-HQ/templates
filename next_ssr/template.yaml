@@ -53,6 +53,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+            allowedOwners:
+              - Staffing-HQ
   steps:
     - id: template
       name: Fetch Content + Template
